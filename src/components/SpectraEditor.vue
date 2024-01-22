@@ -19,7 +19,7 @@ defineProps({
 .editor{
     height:100%;
     width:100%;
-    background-color: grey;
+    background-color: white;
     position: fixed;
 }
 </style>

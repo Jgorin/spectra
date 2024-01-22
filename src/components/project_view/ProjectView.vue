@@ -3,17 +3,14 @@
         <h1>
             {{ project?.name }}
         </h1>
-        <div>
-            <!-- add a bottom border to the final track  -->
-            <ProjectViewTrack v-for="track in project?.tracks" :track="track" :key="track.name" class="track"/>
-        </div>
+        <ProjectTrackList :project="project"/>
     </div>
 </template>
 
 <script setup lang="ts">
-import ProjectViewTrack from './track/ProjectViewTrack.vue';
+import ProjectTrackList from './track/ProjectTrackList.vue';
 import Project from "@/core/project/project"
-import { defineProps, onMounted } from 'vue';
+import { defineProps } from 'vue';
 
 defineProps({
     project: Project

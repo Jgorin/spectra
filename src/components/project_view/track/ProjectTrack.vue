@@ -1,12 +1,13 @@
 <template>
-    <div class="track-label">
-      {{ track?.name }}
+    <div>
+        <ProjectTrackLabel :track="track"/>
     </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import Track from '@/core/project/track';
+import ProjectTrackLabel from './ProjectTrackLabel.vue';
 
 defineProps({
     track: Track
@@ -15,14 +16,10 @@ defineProps({
 </script>
 
 <style scoped>
-div{
-    outline: 1px solid;
-    margin-top: 1px;
-    margin-left: 1px;
-}
 
-.track-label{
+.project-track{
     text-align: left;
-    margin: 10px;
+    padding:5px;
+    width: 100%;
 }
 </style>
