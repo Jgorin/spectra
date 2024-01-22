@@ -1,27 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <SpectraEditor :project="project"/>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
+<script setup lang="ts">
+import SpectraEditor from './components/SpectraEditor.vue';
+import Project from '@/core/project/project';
+import Track from '@/core/project/track';
 
-@Options({
-  components: {
-    HelloWorld,
-  },
-})
-export default class App extends Vue {}
+const project = new Project("Test Project");
+const track1 = new Track("Track 1", 0);
+const track2 = new Track("Track 2", 1);
+project.tracks.push(track1);
+project.tracks.push(track2);
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+html, body {
+  margin: 0px !important;
+  padding: 0px !important;
 }
 </style>
