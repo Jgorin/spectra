@@ -5,13 +5,12 @@
             <div class="track-color me-2" :style="{ backgroundColor: trackColor }"></div>
             
             <!-- Track Info -->
-            <div class="track-info flex-grow-1">
+            <div class="track-info flex-grow-1 me-3">
                 <div class="track-name text-light fw-semibold">{{ track?.name }}</div>
-                <div class="track-type text-muted small">Audio Track</div>
             </div>
 
             <!-- Track Controls -->
-            <div class="track-controls d-flex align-items-center">
+            <div class="track-controls d-flex align-items-center ms-auto">
                 <!-- Solo/Mute buttons -->
                 <button class="btn btn-outline-warning btn-sm me-1" :class="{ active: isSolo }" @click="toggleSolo">S</button>
                 <button class="btn btn-outline-danger btn-sm me-2" :class="{ active: isMute }" @click="toggleMute">M</button>
@@ -93,9 +92,20 @@ const toggleMute = () => {
     border-radius: 2px;
 }
 
+.track-info {
+    min-width: 0; /* Allow flex item to shrink */
+}
+
 .track-name {
     font-size: 0.9rem;
     margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-controls {
+    flex-shrink: 0; /* Prevent controls from shrinking */
 }
 
 .track-type {
