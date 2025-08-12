@@ -48,17 +48,25 @@
         </div>
 
         <!-- Main Content Area -->
-        <div class="main-content flex-grow-1 d-flex">
+        <div class="main-content flex-grow-1 d-flex min-h-0">
             <!-- Left Sidebar - Track Controls -->
-            <div class="track-controls-sidebar bg-dark border-end" style="width: 250px;">
-                <div class="track-header p-2 border-bottom bg-secondary d-flex align-items-center" style="height: 60px;">
+            <div class="track-controls-sidebar bg-dark border-end d-flex flex-column position-relative" :style="{ width: sidebarWidth + 'px', minWidth: '180px', maxWidth: '500px' }">
+                <div class="track-header p-2 border-bottom bg-secondary d-flex align-items-center flex-shrink-0" style="height: 60px;">
                     <h6 class="mb-0 text-light">Tracks</h6>
                 </div>
-                <ProjectView :project="project" class="h-100"/>
+                <div class="tracks-content flex-grow-1 min-h-0">
+                    <ProjectView :project="project" class="h-100"/>
+                </div>
+                <!-- Resize handle -->
+                <div class="resize-handle position-absolute top-0 end-0 h-100 d-flex align-items-center justify-content-center" 
+                     @mousedown="startResize"
+                     style="width: 0px; cursor: col-resize; z-index: 10;">
+                    <div class="resize-indicator"></div>
+                </div>
             </div>
 
             <!-- Main Timeline/Arrangement Area -->
-            <div class="timeline-area flex-grow-1 bg-dark position-relative">
+            <div class="timeline-area flex-grow-1 bg-dark position-relative d-flex flex-column min-w-0">
                 <div class="timeline-header bg-secondary border-bottom d-flex align-items-center" style="height: 60px;">
                     <div class="timeline-controls p-2">
                         <span class="text-light me-3">Timeline</span>
@@ -102,10 +110,45 @@
 <script setup lang="ts">
 import ProjectView from './project_view/ProjectView.vue';
 import Project from "../core/project/project"
-import { defineProps } from 'vue';
+import { defineProps, ref, onUnmounted } from 'vue';
 
 defineProps({
     project: Project
+});
+
+// Resizable sidebar functionality
+const sidebarWidth = ref(250);
+const isResizing = ref(false);
+
+const startResize = (e: MouseEvent) => {
+    isResizing.value = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    document.addEventListener('mousemove', resize);
+    document.addEventListener('mouseup', stopResize);
+    e.preventDefault();
+};
+
+const resize = (e: MouseEvent) => {
+    if (!isResizing.value) return;
+    
+    const newWidth = e.clientX;
+    if (newWidth >= 180 && newWidth <= 500) {
+        sidebarWidth.value = newWidth;
+    }
+};
+
+const stopResize = () => {
+    isResizing.value = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('mouseup', stopResize);
+};
+
+onUnmounted(() => {
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('mouseup', stopResize);
 });
 
 </script>
@@ -114,6 +157,8 @@ defineProps({
 .spectra-editor {
     background-color: #1a1a1a;
     color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .transport-bar {
@@ -121,12 +166,18 @@ defineProps({
 }
 
 .track-controls-sidebar {
-    min-width: 250px;
     background-color: #2c2c2c;
+    user-select: none;
+    transition: box-shadow 0.2s ease;
+}
+
+.track-controls-sidebar:has(.resize-handle:hover) {
+    box-shadow: 2px 0 5px rgba(0, 123, 255, 0.2);
 }
 
 .timeline-area {
     background-color: #1e1e1e;
+    min-width: 0; /* Allows flex item to shrink below its content width */
 }
 
 .timeline-header {
@@ -203,6 +254,41 @@ defineProps({
     background-color: #444;
     border-color: #666;
     color: #fff;
+}
+
+/* Resize handle styling */
+.resize-handle {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+    border-left: 1px solid #444;
+}
+
+.resize-handle:hover {
+    background-color: rgba(0, 123, 255, 0.3);
+    border-left: 1px solid #007bff;
+}
+
+.resize-indicator {
+    width: 2px;
+    height: 30px;
+    background-color: #666;
+    border-radius: 1px;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.resize-handle:hover .resize-indicator {
+    background-color: #007bff;
+    opacity: 1;
+}
+
+/* Ensure proper flexbox behavior */
+.min-h-0 {
+    min-height: 0;
+}
+
+.min-w-0 {
+    min-width: 0;
 }
 
 /* Custom scrollbars for dark theme */

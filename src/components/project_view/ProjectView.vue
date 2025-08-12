@@ -3,8 +3,8 @@
         <div class="tracks-container flex-grow-1 overflow-auto">
             <ProjectTrackList :project="project"/>
         </div>
-        <div class="project-controls p-2 border-top bg-secondary">
-            <button class="btn btn-success btn-sm w-100 mb-1">
+        <div class="project-controls p-3 border-top bg-secondary flex-shrink-0">
+            <button class="btn btn-success btn-sm w-100 mb-2">
                 <i class="fas fa-plus me-1"></i>Add Track
             </button>
             <button class="btn btn-outline-light btn-sm w-100">
@@ -28,14 +28,17 @@ defineProps({
 <style scoped>
 .project-view {
     background-color: #2c2c2c;
+    min-height: 0;
 }
 
 .project-controls {
     background-color: #333333 !important;
+    min-height: 80px; /* Ensure enough space for buttons */
 }
 
 .tracks-container {
     background-color: #2c2c2c;
+    min-height: 0; /* Allow container to shrink */
 }
 
 .btn-outline-light {
