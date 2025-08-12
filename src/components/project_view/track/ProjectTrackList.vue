@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <ProjectTrack v-for="track in project?.tracks" :track="track" :key="track.name" class="project-track-list-item"/>
+    <div class="track-list">
+        <ProjectTrack 
+            v-for="track in project?.tracks" 
+            :track="track" 
+            :key="track.id" 
+            class="track-item"
+        />
     </div>
 </template>
 
@@ -16,8 +21,15 @@ defineProps({
 </script>
 
 <style scoped>
-.project-track-list-item{
-    outline: 1px solid;
-    margin: 1px 10px 0px 10px;
+.track-list {
+    padding: 0;
+}
+
+.track-item {
+    border-bottom: 1px solid #444;
+}
+
+.track-item:last-child {
+    border-bottom: none;
 }
 </style>

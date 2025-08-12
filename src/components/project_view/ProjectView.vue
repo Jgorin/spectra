@@ -1,9 +1,16 @@
 <template>
-    <div class="project-view">
-        <h1>
-            {{ project?.name }}
-        </h1>
-        <ProjectTrackList :project="project"/>
+    <div class="project-view h-100 d-flex flex-column">
+        <div class="tracks-container flex-grow-1 overflow-auto">
+            <ProjectTrackList :project="project"/>
+        </div>
+        <div class="project-controls p-2 border-top bg-secondary">
+            <button class="btn btn-success btn-sm w-100 mb-1">
+                <i class="fas fa-plus me-1"></i>Add Track
+            </button>
+            <button class="btn btn-outline-light btn-sm w-100">
+                <i class="fas fa-cog me-1"></i>Settings
+            </button>
+        </div>
     </div>
 </template>
 
@@ -17,3 +24,28 @@ defineProps({
 });
 
 </script>
+
+<style scoped>
+.project-view {
+    background-color: #2c2c2c;
+}
+
+.project-controls {
+    background-color: #333333 !important;
+}
+
+.tracks-container {
+    background-color: #2c2c2c;
+}
+
+.btn-outline-light {
+    border-color: #555;
+    color: #ccc;
+}
+
+.btn-outline-light:hover {
+    background-color: #444;
+    border-color: #666;
+    color: #fff;
+}
+</style>
