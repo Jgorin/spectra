@@ -1,6 +1,6 @@
 <template>
     <div class="track-list">
-        <ProjectTrack 
+        <TrackItem 
             v-for="track in project?.tracks" 
             :track="track" 
             :key="track.id" 
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import Project from "@/core/project/project"
-import ProjectTrack from '@/components/project_view/track/ProjectTrack.vue';
+import TrackItem from '@/components/tracks/TrackItem.vue';
 
 defineProps({
     project: Project
